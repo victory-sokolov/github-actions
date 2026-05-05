@@ -9,7 +9,7 @@
 # Usage:
 #   jobs:
 #     security:
-#       uses: victory-sokolov/githooks/.github/workflows/infra/security-scan.yml@main
+#       uses: victory-sokolov/github-actions/.github/workflows/infra/security-scan.yml@main
 
 name: Security Scan
 

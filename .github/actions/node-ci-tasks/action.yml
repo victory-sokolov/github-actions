@@ -1,0 +1,92 @@
+name: 'Node CI Tasks'
+description: 'Runs standard CI tasks without Turbo'
+inputs:
+  package-manager:
+    description: 'Package manager to use'
+    default: 'bun'
+  skip-build:
+    description: 'Whether to skip the build step'
+    default: 'false'
+
+runs:
+  using: "composite"
+  steps:
+    - name: 🔍 Run lint
+      if: steps.scripts.outputs.lint == 'true'
+      shell: bash
+      run: |
+        if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+          pnpm lint
+        else
+          bun run lint
+        fi
+
+    - name: ✅ Check formatting
+      if: steps.scripts.outputs.format_check == 'true'
+      shell: bash
+      run: |
+        if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+          pnpm format:check
+        else
+          bun run format:check
+        fi
+
+    - name: 🔐 Run typecheck
+      if: steps.scripts.outputs.typecheck == 'true'
+      shell: bash
+      run: |
+        if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+          pnpm typecheck
+        else
+          bun run typecheck
+        fi
+
+    - name: 🔨 Run build
+      if: steps.scripts.outputs.build == 'true' && inputs.skip-build != 'true'
+      shell: bash
+      run: |
+        if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+          pnpm build
+        else
+          bun run build
+        fi
+
+    - name: 🧪 Run tests
+      if: steps.scripts.outputs.test == 'true'
+      shell: bash
+      run: |
+        if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+          pnpm test --coverage
+        else
+          bun run test:coverage
+        fi
+
+    - name: 🔍 Check for duplicate code
+      if: steps.scripts.outputs.jscpd == 'true'
+      shell: bash
+      run: |
+        if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+          pnpm jscpd
+        else
+          bun run jscpd
+        fi
+
+    - name: ✅ Run Knip
+      if: steps.scripts.outputs.knip == 'true'
+      shell: bash
+      run: |
+        if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+          pnpm knip --cache
+        else
+          bun run knip --cache
+        fi
+
+    - name: 🔒 Run security audit
+      if: steps.scripts.outputs.audit == 'true'
+      shell: bash
+      run: |
+        if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+          pnpm audit --audit-level=moderate
+        else
+          bun audit --moderate
+        fi

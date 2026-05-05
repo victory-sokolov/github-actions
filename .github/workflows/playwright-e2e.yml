@@ -46,7 +46,7 @@ jobs:
               uses: actions/checkout@v6
 
             - name: 📦 Setup dependencies with cache
-              uses: victory-sokolov/githooks/.github/actions/node-deps-cache@main
+              uses: victory-sokolov/github-actions/.github/actions/node-deps-cache@main
               with:
                   package-manager: ${{ inputs.package-manager }}
                   node-version: ${{ inputs.node-version }}

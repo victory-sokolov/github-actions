@@ -1,7 +1,7 @@
 # Reusable lefthook configuration for Node.js/Bun projects
 # Reference this from your project's lefthook.yml:
 # remotes:
-#   - git_url: https://github.com/victory-sokolov/githooks
+#   - git_url: https://github.com/victory-sokolov/github-actions
 #     configs:
 #       - hooks/lefthook/lefthook.yml
 

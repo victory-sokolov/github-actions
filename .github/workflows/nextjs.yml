@@ -42,7 +42,7 @@ jobs:
                   fi
 
             - name: 📦 Setup dependencies with cache
-              uses: victory-sokolov/githooks/.github/actions/node-deps-cache@main
+              uses: victory-sokolov/github-actions/.github/actions/node-deps-cache@main
               with:
                   package-manager: '${{ inputs.package-manager }}'
                   node-version: '${{ steps.nvm.outputs.NODE_VERSION }}'

@@ -1,0 +1,96 @@
+name: 'Turbo Node CI'
+description: 'Runs CI tasks with optional Turbo support'
+inputs:
+  package-manager:
+    description: 'Package manager to use'
+    default: 'bun'
+  turbo-filter:
+    description: 'Turbo filter'
+    default: ''
+  skip-build:
+    description: 'Whether to skip the build step'
+    default: 'false'
+
+runs:
+  using: "composite"
+  steps:
+    - name: 🔍 Check available scripts
+      id: scripts
+      shell: bash
+      run: |
+        curl -sfL "https://raw.githubusercontent.com/victory-sokolov/github-actions/main/.github/scripts/check-available-scripts.ts" -o /tmp/check-available-scripts.ts
+        node --experimental-strip-types /tmp/check-available-scripts.ts
+
+    - name: 🔍 Run lint
+      if: steps.scripts.outputs.build == 'true' && inputs.skip-build != 'true'
+      shell: bash
+      run: |
+        if [ -f turbo.json ]; then
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bunx' }} turbo run lint --filter="${{ inputs.turbo-filter }}"
+        else
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bun' }} run lint
+        fi
+
+    - name: 🔐 Run typecheck
+      if: steps.scripts.outputs.typecheck == 'true'
+      shell: bash
+      run: |
+        if [ -f turbo.json ]; then
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bunx' }} turbo run typecheck --filter="${{ inputs.turbo-filter }}"
+        else
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bun' }} run typecheck
+        fi
+
+    - name: 🔍 Check for duplicate code
+      if: steps.scripts.outputs.jscpd == 'true'
+      shell: bash
+      run: |
+        if [ -f turbo.json ]; then
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bunx' }} turbo run jscpd --filter="${{ inputs.turbo-filter }}"
+        else
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bun' }} run jscpd
+        fi
+
+    - name: 🧪 Run tests
+      if: steps.scripts.outputs.test == 'true'
+      shell: bash
+      run: |
+        if [ -f turbo.json ]; then
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bunx' }} turbo run test:coverage --filter="${{ inputs.turbo-filter }}"
+        else
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bun' }} run test:coverage
+        fi
+
+    - name: ✅ Check formatting
+      if: steps.scripts.outputs.format_check == 'true'
+      shell: bash
+      run: |
+        if [ -f turbo.json ]; then
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bunx' }} turbo run format:check --filter="${{ inputs.turbo-filter }}"
+        else
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bun' }} run format:check
+        fi
+
+    - name: ✅ Run Knip
+      if: steps.scripts.outputs.knip == 'true'
+      shell: bash
+      run: |
+        if [ -f turbo.json ]; then
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bunx' }} turbo run knip --filter="${{ inputs.turbo-filter }}"
+        else
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bun' }} run knip --cache
+        fi
+
+    - name: 🔒 Run security audit
+      if: steps.scripts.outputs.audit == 'true'
+      shell: bash
+      run: |
+        if [ -f turbo.json ]; then
+          ${{ inputs.package-manager == 'pnpm' && 'pnpm' || 'bunx' }} turbo run audit --filter="${{ inputs.turbo-filter }}"
+        else
+          if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+            pnpm audit --audit-level=moderate
+          else
+            bun audit --moderate
+          fi
+        fi

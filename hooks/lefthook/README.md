@@ -8,7 +8,7 @@ Create a `lefthook.yml` in your project root that references this remote configu
 
 ```yaml
 remote:
-  git: https://github.com/victory-sokolov/githooks
+  git: https://github.com/victory-sokolov/github-actions
   config: hooks/lefthook/lefthook.yml
 ```
 
@@ -48,7 +48,7 @@ You can extend or override the remote configuration by adding commands to your l
 
 ```yaml
 remote:
-  git: https://github.com/YOUR_ORG/githooks
+  git: https://github.com/YOUR_ORG/github-actions
   config: hooks/lefthook/lefthook.yml
 
 pre-commit:

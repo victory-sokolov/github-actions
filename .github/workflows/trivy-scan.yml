@@ -39,7 +39,7 @@ permissions:
     actions: read
 
 env:
-    TRIVY_CONFIG_URL: https://raw.githubusercontent.com/victory-sokolov/githooks/main/trivy.yaml
+    TRIVY_CONFIG_URL: https://raw.githubusercontent.com/victory-sokolov/github-actions/main/trivy.yaml
 
 jobs:
     trivy-scan:
@@ -60,7 +60,7 @@ jobs:
 
             - name: Setup Trivy config
               run: |
-                  # Use repo's trivy.yaml if present, otherwise download default from githooks
+                  # Use repo's trivy.yaml if present, otherwise download default from github-actions
                   if [ ! -f "trivy.yaml" ]; then
                     curl -sL "$TRIVY_CONFIG_URL" -o trivy.yaml
                   fi

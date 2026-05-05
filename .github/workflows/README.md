@@ -18,6 +18,7 @@ This repository contains reusable GitHub Actions workflows for various automatio
 ### Infrastructure Workflows
 7. **Terraform Quality Checks** - For Terraform projects with fmt, validate, and plan
 8. **Auto-merge Dependabot PR Workflow** - For automated Dependabot PR management
+9. **Hetzner Deployment Workflow** - Reusable workflow for validating, publishing, and deploying containerized applications to Hetzner with Pulumi
 
 ## 🚀 Quick Start
 
@@ -36,7 +37,7 @@ on:
 
 jobs:
   ci:
-    uses: victory-sokolov/githooks/.github/workflows/node-ci.yml@main
+    uses: victory-sokolov/github-actions/.github/workflows/node-ci.yml@main
     with:
       package-manager: 'pnpm'  # or 'bun'
 ```
@@ -54,7 +55,7 @@ on:
 
 jobs:
   auto-merge-dependabot:
-    uses: victory-sokolov/githooks/.github/workflows/auto-merge-dependabot-pr.yml@main
+    uses: victory-sokolov/github-actions/.github/workflows/auto-merge-dependabot-pr.yml@main
     with:
       merge-strategy: 'squash'
       require-approval: true
@@ -62,6 +63,39 @@ jobs:
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+### Hetzner Deployment Workflow
+
+Add this to your `.github/workflows/deploy.yml` file:
+
+```yaml
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: victory-sokolov/github-actions/.github/workflows/deploy.yml@main
+    with:
+      dockerfile_path: apps/server/Dockerfile
+      docker_build_context: .
+      docker_target: production
+      deploy_working_directory: infra
+      pulumi_stack: prod
+    secrets:
+      pulumi_config_passphrase: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
+      pulumi_backend_url: ${{ secrets.PULUMI_BACKEND_URL }}
+      r2_access_key_id: ${{ secrets.R2_ACCESS_KEY_ID }}
+      r2_secret_access_key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      r2_endpoint: ${{ secrets.R2_ENDPOINT }}
+      hetzner_token: ${{ secrets.HETZNER_TOKEN }}
+      ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+      ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      ghcr_token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+Leave `image_tag` empty to build, validate, publish, and deploy `sha-<commit SHA>`. Set `image_tag` to deploy an already published image instead. Override `smoke_test_command`, `publish_platforms`, or the Pulumi config key inputs when your repository uses different conventions.
 
 ## 📋 Node.js CI Workflow Details
 
@@ -111,14 +145,14 @@ Automatically approves and merges Dependabot PRs based on configurable criteria.
 ```yaml
 jobs:
   auto-merge-dependabot:
-    uses: victory-sokolov/githooks/.github/workflows/auto-merge-dependabot-pr.yml@main
+    uses: victory-sokolov/github-actions/.github/workflows/auto-merge-dependabot-pr.yml@main
 ```
 
 #### Advanced Configuration
 ```yaml
 jobs:
   auto-merge-dependabot:
-    uses: victory-sokolov/githooks/.github/workflows/auto-merge-dependabot-pr.yml@main
+    uses: victory-sokolov/github-actions/.github/workflows/auto-merge-dependabot-pr.yml@main
     with:
       merge-strategy: 'squash'
       require-approval: true
@@ -131,7 +165,7 @@ jobs:
 ```yaml
 jobs:
   auto-merge-dependabot:
-    uses: victory-sokolov/githooks/.github/workflows/auto-merge-dependabot-pr.yml@main
+    uses: victory-sokolov/github-actions/.github/workflows/auto-merge-dependabot-pr.yml@main
     with:
       merge-strategy: 'merge'
       require-approval: true
@@ -184,7 +218,7 @@ on:
 
 jobs:
   swift-ci:
-    uses: victory-sokolov/githooks/.github/workflows/swift.yml@main
+    uses: victory-sokolov/github-actions/.github/workflows/swift.yml@main
 ```
 
 ### 🎯 What It Does
@@ -238,7 +272,7 @@ jobs:
       pull-requests: write
       packages: write
     steps:
-      - uses: victory-sokolov/githooks/.github/actions/npm-release@main
+      - uses: victory-sokolov/github-actions/.github/actions/npm-release@main
         with:
           package-manager: npm
           registry: npm
@@ -263,7 +297,7 @@ jobs:
       pull-requests: write
       packages: write
     steps:
-      - uses: victory-sokolov/githooks/.github/actions/npm-release@main
+      - uses: victory-sokolov/github-actions/.github/actions/npm-release@main
         with:
           package-manager: bun
           node-version: '24'
@@ -328,7 +362,7 @@ on:
 
 jobs:
   drizzle:
-    uses: victory-sokolov/githooks/.github/workflows/drizzle.yml@main
+    uses: victory-sokolov/github-actions/.github/workflows/drizzle.yml@main
     with:
       working-directory: ./db
 ```
@@ -363,7 +397,7 @@ To use an external PostgreSQL database instead of the built-in service:
 ```yaml
 jobs:
   drizzle:
-    uses: victory-sokolov/githooks/.github/workflows/drizzle.yml@main
+    uses: victory-sokolov/github-actions/.github/workflows/drizzle.yml@main
     with:
       database-url: ${{ secrets.DATABASE_URL }}
       working-directory: ./db
@@ -374,7 +408,7 @@ jobs:
 ```yaml
 jobs:
   drizzle:
-    uses: victory-sokolov/githooks/.github/workflows/drizzle.yml@main
+    uses: victory-sokolov/github-actions/.github/workflows/drizzle.yml@main
     with:
       skip-check: true
       skip-push: true
@@ -387,7 +421,7 @@ jobs:
 ```yaml
 jobs:
   ci:
-    uses: victory-sokolov/githooks/.github/workflows/node-ci.yml@main
+    uses: victory-sokolov/github-actions/.github/workflows/node-ci.yml@main
     with:
       package-manager: 'pnpm'
 ```
@@ -396,7 +430,7 @@ jobs:
 ```yaml
 jobs:
   ci:
-    uses: victory-sokolov/githooks/.github/workflows/node-ci.yml@main
+    uses: victory-sokolov/github-actions/.github/workflows/node-ci.yml@main
     with:
       package-manager: 'bun'
 ```

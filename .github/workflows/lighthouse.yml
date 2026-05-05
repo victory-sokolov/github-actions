@@ -30,7 +30,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: 📦 Setup dependencies with cache
-        uses: victory-sokolov/githooks/.github/actions/node-deps-cache@main
+        uses: victory-sokolov/github-actions/.github/actions/node-deps-cache@main
         with:
           package-manager: bun
 

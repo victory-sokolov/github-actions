@@ -74,7 +74,7 @@ This repository provides reusable GitHub Actions workflows for common CI/CD task
   ```yaml
   jobs:
     e2e-tests:
-      uses: your-org/githooks/.github/workflows/playwright-e2e.yml@main
+      uses: your-org/github-actions/.github/workflows/playwright-e2e.yml@main
       with:
         node-version: '20'
         test-command: 'npm run test:e2e'
@@ -104,7 +104,7 @@ This repository provides reusable GitHub Actions workflows for common CI/CD task
   ```yaml
   jobs:
     build:
-      uses: your-org/githooks/.github/workflows/reusable-nextjs.yml@main
+      uses: your-org/github-actions/.github/workflows/reusable-nextjs.yml@main
       with:
         node-version: '20'
         package-manager: 'pnpm'
@@ -125,7 +125,7 @@ This repository provides reusable GitHub Actions workflows for common CI/CD task
   ```yaml
   jobs:
     swift-ci:
-      uses: your-org/githooks/.github/workflows/swift.yml@main
+      uses: your-org/github-actions/.github/workflows/swift.yml@main
   ```
 
 #### `dead-links.yml`
@@ -138,7 +138,7 @@ This repository provides reusable GitHub Actions workflows for common CI/CD task
   ```yaml
   jobs:
     links:
-      uses: your-org/githooks/.github/workflows/dead-links.yml@main
+      uses: your-org/github-actions/.github/workflows/dead-links.yml@main
   ```
 
 ### Example/Template Workflows

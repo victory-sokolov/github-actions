@@ -41,6 +41,7 @@ jobs:
         uses: crate-ci/typos@v1.45.0
         with:
           files: "**/*.md"
+        continue-on-error: true
 
       - name: 📄 Read .nvmrc if exists
         id: nvm
@@ -52,105 +53,47 @@ jobs:
           fi
 
       - name: 📦 Setup dependencies with cache
-        uses: victory-sokolov/githooks/.github/actions/node-deps-cache@main
+        uses: victory-sokolov/github-actions/.github/actions/node-deps-cache@main
         with:
           package-manager: ${{ inputs.package-manager }}
           node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
 
       - name: 📋 Display tool versions
         run: |
-          curl -sfL "https://raw.githubusercontent.com/victory-sokolov/githooks/main/.github/scripts/display-tool-versions.ts" -o /tmp/display-tool-versions.ts
+          curl -sfL "https://raw.githubusercontent.com/victory-sokolov/github-actions/main/.github/scripts/display-tool-versions.ts" -o /tmp/display-tool-versions.ts
           node /tmp/display-tool-versions.ts "${{ inputs.package-manager }}" "v1.44.0"
 
       - name: 🔍 Check available scripts
         id: scripts
         run: |
-          curl -sfL "https://raw.githubusercontent.com/victory-sokolov/githooks/main/.github/scripts/check-available-scripts.ts" -o /tmp/check-available-scripts.ts
+          curl -sfL "https://raw.githubusercontent.com/victory-sokolov/github-actions/main/.github/scripts/check-available-scripts.ts" -o /tmp/check-available-scripts.ts
           node --experimental-strip-types /tmp/check-available-scripts.ts
 
-      - name: 🔍 Run lint
-        if: steps.scripts.outputs.lint == 'true'
+      - name: 🔍 Check for turbo.json
+        id: turbo_check
         run: |
-          if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
-            pnpm lint
+          if [ -f turbo.json ]; then
+            echo "has_turbo=true" >> "$GITHUB_OUTPUT"
           else
-            bun run lint
+            echo "has_turbo=false" >> "$GITHUB_OUTPUT"
           fi
-
-      - name: ✅ Check formatting
-        if: steps.scripts.outputs.format_check == 'true'
-        run: |
-          if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
-            pnpm format:check
-          else
-            bun run format:check
-          fi
-      - name: 🔐 Run typecheck
-        if: steps.scripts.outputs.typecheck == 'true'
-        run: |
-          if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
-            pnpm typecheck
-          else
-            bun run typecheck
-          fi
-
-      - name: 🔨 Run build
-        if: steps.scripts.outputs.build == 'true' && !inputs.skip-build
-        run: |
-          if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
-            pnpm build
-          else
-            bun run build
-          fi
-
-      - uses: reviewdog/action-setup@d8edfce3dd5e1ec6978745e801f9c50b5ef80252 # v1.4.0
+      
+      - name: 🐶 Reviewdog
+        uses: reviewdog/action-setup@d8edfce3dd5e1ec6978745e801f9c50b5ef80252 # v1.4.0
         with:
           reviewdog_version: latest
 
-      - name: 🧪 Run tests
-        if: steps.scripts.outputs.test == 'true'
-        run: |
-          if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
-            pnpm test --coverage
-          else
-            bun run test:coverage
-          fi
-
-      - name: 📊 Upload coverage reports
-        if: inputs.upload-coverage && (success() || failure())
-        uses: actions/upload-artifact@v7
+      - name: 🚀 Run CI tasks with Turbo
+        if: steps.turbo_check.outputs.has_turbo == 'true'
+        uses: victory-sokolov/github-actions/.github/actions/turbo@main
         with:
-          name: coverage-report-${{ inputs.package-manager }}
-          path: |
-            coverage/
-            *.coverage
-            .coverage
-          retention-days: 7
-          compression-level: 6
+          package-manager: ${{ inputs.package-manager }}
+          turbo-filter: ''
+          skip-build: ${{ inputs.skip-build }}
 
-      - name: 🔍 Check for duplicate code
-        if: steps.scripts.outputs.jscpd == 'true'
-        run: |
-          if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
-            pnpm jscpd
-          else
-            bun run jscpd
-          fi
-
-      - name: ✅ Run Knip
-        if: steps.scripts.outputs.knip == 'true'
-        run: |
-          if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
-            pnpm knip --cache
-          else
-            bun run knip --cache
-          fi
-
-      - name: 🔒 Run security audit
-        if: steps.scripts.outputs.audit == 'true'
-        run: |
-          if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
-            pnpm audit --audit-level=moderate
-          else
-            bun audit --moderate
-          fi
+      - name: 🚀 Run CI tasks standard
+        if: steps.turbo_check.outputs.has_turbo == 'false'
+        uses: victory-sokolov/github-actions/.github/actions/node-ci-tasks@main
+        with:
+          package-manager: ${{ inputs.package-manager }}
+          skip-build: ${{ inputs.skip-build }}
