@@ -1,0 +1,30 @@
+name: DB Migration and Seed on Merge
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/server/data/questions/**/*.ndjson'
+      - 'apps/server/src/db/seed.ts'
+      - 'apps/server/src/db/ndjson.ts'
+      - 'apps/server/src/db/schema.ts'
+      - 'apps/server/package.json'
+
+jobs:
+  migrate-and-seed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        working-directory: apps/server
+        run: bun install --frozen-lockfile
+
+      - name: Run DB Migration and Seed
+        working-directory: apps/server
+        run: bun run db:migrate && bun run db:seed
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
