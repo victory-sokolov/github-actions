@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Install actionlint
         run: |
@@ -31,4 +31,4 @@ jobs:
         run: ./actionlint
 
       - name: Run zizmor 🌈
-        uses: zizmorcore/zizmor-action@v0.5.4
+        uses: zizmorcore/zizmor-action@b572f7b1a1c2d41efaab43d504f68d215c3cd727 # v0.5.4
