@@ -29,3 +29,7 @@ jobs:
 
       - name: Run actionlint
         run: ./actionlint
+
+
+      - name: Run zizmor 🌈
+        uses: zizmorcore/zizmor-action@v0.5.4
