@@ -72,7 +72,7 @@ jobs:
     name: Trivy Security Scan
     needs: terraform-quality
     if: ${{ !inputs.skip_trivy }}
-    uses: ./.github/workflows/infra/trivy-scan.yml
+    uses: ./.github/workflows/trivy-scan.yml
     with:
       scan-type: 'config'
       upload-sarif: true

@@ -94,8 +94,8 @@ jobs:
                   distribution: 'temurin'
                   java-version: ${{ inputs.java_version }}
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6
+            - name: Setup Gradle
+              uses: gradle/actions/setup-gradle@v6
 
             - name: Cache Gradle wrappers
               uses: actions/cache@v5
@@ -238,8 +238,8 @@ jobs:
                   distribution: 'temurin'
                   java-version: ${{ inputs.java_version }}
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6
+            - name: Setup Gradle
+              uses: gradle/actions/setup-gradle@v6
 
             - name: Cache Gradle wrappers
               uses: actions/cache@v5
@@ -326,8 +326,8 @@ jobs:
                   distribution: 'temurin'
                   java-version: ${{ inputs.java_version }}
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6
+            - name: Setup Gradle
+              uses: gradle/actions/setup-gradle@v6
 
             - name: Cache Gradle wrappers
               uses: actions/cache@v5
