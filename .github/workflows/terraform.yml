@@ -55,6 +55,16 @@ jobs:
           key: ${{ runner.os }}-terraform-${{ hashFiles('**/.terraform.lock.hcl') }}
           restore-keys: |
             ${{ runner.os }}-terraform-
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+      - name: tflint --init
+        run: tflint --init
+        working-directory: ${{ inputs.working_directory }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: tflint
+        run: tflint --recursive
+        working-directory: ${{ inputs.working_directory }}
       - name: terraform fmt
         uses: dflook/terraform-fmt-check@v2
         with:
