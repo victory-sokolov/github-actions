@@ -58,6 +58,9 @@ jobs:
           package-manager: ${{ inputs.package-manager }}
           node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
 
+      - name: 🌿 Run Fallow checks
+        run: npx fallow
+
       - name: 📋 Display tool versions
         run: |
           curl -sfL "https://raw.githubusercontent.com/victory-sokolov/github-actions/main/.github/scripts/display-tool-versions.ts" -o /tmp/display-tool-versions.ts
