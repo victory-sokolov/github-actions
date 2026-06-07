@@ -9,7 +9,7 @@ inputs:
     default: 'false'
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: 🔍 Run lint
       if: steps.scripts.outputs.lint == 'true'
@@ -59,6 +59,15 @@ runs:
           pnpm test --coverage
         else
           bun run test:coverage
+        fi
+
+    - name: 🌿 Run Fallow checks
+      shell: bash
+      run: |
+        if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+          pnpm fallow
+        else
+          bun run fallow
         fi
 
     - name: 🔍 Check for duplicate code
