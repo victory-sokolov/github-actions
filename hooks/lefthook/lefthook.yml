@@ -12,7 +12,7 @@ pre-commit:
       run: bun run format
       stage_fixed: true
     lint:
-      run: bun run lint:fix
+      run: bun run lint
       stage_fixed: true
     typecheck:
       run: bun run typecheck
