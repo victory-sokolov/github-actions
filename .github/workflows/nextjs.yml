@@ -58,16 +58,6 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-nextjs-${{ hashFiles('**/bun-lock') }}
 
-            - name: 🩺 React Doctor
-              run: |
-                  if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
-                    pnpm run doctor
-                  elif [ "${{ inputs.package-manager }}" == "bun" ]; then
-                    bun run doctor
-                  else
-                    npm run doctor
-                  fi
-
             - name: 🏗️ Run build
               run: |
                   if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
@@ -88,6 +78,16 @@ jobs:
                     npm test
                   fi
               continue-on-error: true
+
+            - name: 🩺 React Doctor
+              run: |
+                  if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+                    pnpm run doctor
+                  elif [ "${{ inputs.package-manager }}" == "bun" ]; then
+                    bun run doctor
+                  else
+                    npm run doctor
+                  fi
 
             - name: 👁️ Run accessibility tests
               continue-on-error: true
