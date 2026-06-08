@@ -59,10 +59,14 @@ jobs:
                       ${{ runner.os }}-nextjs-${{ hashFiles('**/bun-lock') }}
 
             - name: 🩺 React Doctor
-              uses: millionco/react-doctor@main
-              with:
-                  diff: main
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+                    pnpm run doctor
+                  elif [ "${{ inputs.package-manager }}" == "bun" ]; then
+                    bun run doctor
+                  else
+                    npm run doctor
+                  fi
 
             - name: 🏗️ Run build
               run: |
