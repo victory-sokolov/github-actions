@@ -15,6 +15,26 @@ on:
         description: 'Whether to skip the build step'
         default: true
         type: boolean
+      run-tests:
+        description: 'Whether to run tests when script exists'
+        default: true
+        type: boolean
+      run-fallow:
+        description: 'Whether to run fallow checks'
+        default: true
+        type: boolean
+      run-jscpd:
+        description: 'Whether to run jscpd when script exists'
+        default: true
+        type: boolean
+      run-knip:
+        description: 'Whether to run knip when script exists'
+        default: true
+        type: boolean
+      run-audit:
+        description: 'Whether to run audit when script exists'
+        default: true
+        type: boolean
       node-version:
         description: 'Node.js version to use'
         default: '24'
@@ -83,17 +103,137 @@ jobs:
         with:
           reviewdog_version: latest
 
-      - name: 🚀 Run CI tasks with Turbo
-        if: steps.turbo_check.outputs.has_turbo == 'true'
-        uses: victory-sokolov/github-actions/.github/actions/turbo@main
-        with:
-          package-manager: ${{ inputs.package-manager }}
-          turbo-filter: ''
-          skip-build: ${{ inputs.skip-build }}
+      - name: 🔍 Run lint
+        if: steps.scripts.outputs.lint == 'true'
+        run: |
+          if [ "${{ steps.turbo_check.outputs.has_turbo }}" = "true" ]; then
+            if [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+              pnpm turbo run lint --filter=""
+            else
+              bunx turbo run lint --filter=""
+            fi
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm lint
+          else
+            bun run lint
+          fi
 
-      - name: 🚀 Run CI tasks standard
-        if: steps.turbo_check.outputs.has_turbo == 'false'
-        uses: victory-sokolov/github-actions/.github/actions/node-ci-tasks@main
-        with:
-          package-manager: ${{ inputs.package-manager }}
-          skip-build: ${{ inputs.skip-build }}
+      - name: ✅ Check formatting
+        if: steps.scripts.outputs.format_check == 'true'
+        run: |
+          if [ "${{ steps.turbo_check.outputs.has_turbo }}" = "true" ]; then
+            if [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+              pnpm turbo run format:check --filter=""
+            else
+              bunx turbo run format:check --filter=""
+            fi
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm format:check
+          else
+            bun run format:check
+          fi
+
+      - name: 🔐 Run typecheck
+        if: steps.scripts.outputs.typecheck == 'true'
+        run: |
+          if [ "${{ steps.turbo_check.outputs.has_turbo }}" = "true" ]; then
+            if [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+              pnpm turbo run typecheck --filter=""
+            else
+              bunx turbo run typecheck --filter=""
+            fi
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm typecheck
+          else
+            bun run typecheck
+          fi
+
+      - name: 🔨 Run build
+        if: ${{ !inputs.skip-build && steps.scripts.outputs.build == 'true' }}
+        run: |
+          if [ "${{ steps.turbo_check.outputs.has_turbo }}" = "true" ]; then
+            if [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+              pnpm turbo run build --filter=""
+            else
+              bunx turbo run build --filter=""
+            fi
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm build
+          else
+            bun run build
+          fi
+
+      - name: 🧪 Run tests
+        if: inputs.run-tests && steps.scripts.outputs.test == 'true'
+        run: |
+          if [ "${{ steps.turbo_check.outputs.has_turbo }}" = "true" ]; then
+            if [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+              pnpm turbo run test:coverage --filter=""
+            else
+              bunx turbo run test:coverage --filter=""
+            fi
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm test --coverage
+          else
+            bun run test:coverage
+          fi
+
+      - name: 🌿 Run Fallow checks
+        if: inputs.run-fallow
+        run: |
+          if [ "${{ steps.turbo_check.outputs.has_turbo }}" = "true" ]; then
+            if [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+              pnpm turbo run fallow --filter=""
+            else
+              bunx turbo run fallow --filter=""
+            fi
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm fallow
+          else
+            bun run fallow
+          fi
+
+      - name: 🔍 Check for duplicate code
+        if: inputs.run-jscpd && steps.scripts.outputs.jscpd == 'true'
+        run: |
+          if [ "${{ steps.turbo_check.outputs.has_turbo }}" = "true" ]; then
+            if [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+              pnpm turbo run jscpd --filter=""
+            else
+              bunx turbo run jscpd --filter=""
+            fi
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm jscpd
+          else
+            bun run jscpd
+          fi
+
+      - name: ✅ Run Knip
+        if: inputs.run-knip && steps.scripts.outputs.knip == 'true'
+        run: |
+          if [ "${{ steps.turbo_check.outputs.has_turbo }}" = "true" ]; then
+            if [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+              pnpm turbo run knip --filter=""
+            else
+              bunx turbo run knip --filter=""
+            fi
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm knip --cache
+          else
+            bun run knip --cache
+          fi
+
+      - name: 🔒 Run security audit
+        if: inputs.run-audit && steps.scripts.outputs.audit == 'true'
+        run: |
+          if [ "${{ steps.turbo_check.outputs.has_turbo }}" = "true" ]; then
+            if [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+              pnpm turbo run audit --filter=""
+            else
+              bunx turbo run audit --filter=""
+            fi
+          elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
+            pnpm audit --audit-level=moderate
+          else
+            bun audit --moderate
+          fi
