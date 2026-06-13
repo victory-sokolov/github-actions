@@ -42,21 +42,21 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Create Terraform plugin cache directory
         run: mkdir -p "$TF_PLUGIN_CACHE_DIR"
       - name: Cache Terraform plugins
-        uses: actions/cache@v5
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ~/.terraform.d/plugin-cache
           key: ${{ runner.os }}-terraform-${{ hashFiles('**/.terraform.lock.hcl') }}
           restore-keys: |
             ${{ runner.os }}-terraform-
       - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v4
+        uses: terraform-linters/setup-tflint@b480b8fcdaa6f2c577f8e4fa799e89e756bb7c93 # v6.2.2
       - name: tflint --init
         run: tflint --init
         working-directory: ${{ inputs.working_directory }}
@@ -66,15 +66,15 @@ jobs:
         run: tflint --recursive
         working-directory: ${{ inputs.working_directory }}
       - name: terraform fmt
-        uses: dflook/terraform-fmt-check@v2
+        uses: dflook/terraform-fmt-check@59168426e242f665bf7b70644d706224e665056a # v2.2.3
         with:
           path: ${{ inputs.working_directory }}
       - name: terraform validate
-        uses: dflook/terraform-validate@v2
+        uses: dflook/terraform-validate@4cef5d8a4b92bcd88486e41e22a42942a382c9d6 # v2.2.3
         with:
           path: ${{ inputs.working_directory }}
       - name: terraform plan
-        uses: dflook/terraform-plan@v2
+        uses: dflook/terraform-plan@7878bff63e2099cdc9be9a6f33cbbbf687f8f0fe # v2.2.3
         with:
           path: ${{ inputs.working_directory }}
 

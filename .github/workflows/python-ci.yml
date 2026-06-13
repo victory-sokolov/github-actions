@@ -21,12 +21,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout commit
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
 
       - name: 🔤 Spell Check with Typos
-        uses: crate-ci/typos@v1.45.0
+        uses: crate-ci/typos@37bb98842b0d8c4ffebdb75301a13db0267cef89 # v1.47.2
 
       - name: 📄 Read .python-version if exists
         id: python-version
@@ -38,17 +38,17 @@ jobs:
           fi
 
       - name: 🐍 Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: ${{ steps.python-version.outputs.PYTHON }}
 
       - name: 🚀 Install uv
-        uses: astral-sh/setup-uv@v7.6
+        uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
         with:
           version: ${{ inputs.uv-version }}
 
       - name: 📦 Setup UV cache
-        uses: actions/cache@v5
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: |
             .uv-cache
@@ -75,7 +75,7 @@ jobs:
       - name: ✅ Run ruff formatter check
         run: uv run ruff format --check .
 
-      - uses: reviewdog/action-setup@d8edfce3dd5e1ec6978745e801f9c50b5ef80252 # v1.4.0
+      - uses: reviewdog/action-setup@d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f # v1.5.0
         with:
           reviewdog_version: latest
 
@@ -85,7 +85,7 @@ jobs:
 
       - name: 📊 Upload coverage to Codecov
         if: success()
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
         with:
           files: ./coverage.xml
           fail_ci_if_error: false
@@ -93,7 +93,7 @@ jobs:
 
       - name: 📤 Upload coverage artifacts
         if: always()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: coverage-report
           path: |

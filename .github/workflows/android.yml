@@ -48,11 +48,11 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v6
+              uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
             - name: Cache ktlint
               id: cache-ktlint
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: ${{ env.KTLINT_CACHE_DIR }}
                   key: ${{ runner.os }}-ktlint-${{ env.KTLINT_VERSION }}
@@ -86,19 +86,19 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v6
+              uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
             - name: Setup JDK
-              uses: actions/setup-java@v5
+              uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
               with:
                   distribution: 'temurin'
                   java-version: ${{ inputs.java_version }}
 
             - name: Setup Gradle
-              uses: gradle/actions/setup-gradle@v6
+              uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
 
             - name: Cache Gradle wrappers
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/wrapper
@@ -108,7 +108,7 @@ jobs:
                       ${{ runner.os }}-gradle-wrapper-
 
             - name: Cache Gradle dependencies
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/caches
@@ -120,7 +120,7 @@ jobs:
                       ${{ runner.os }}-gradle-deps-
 
             - name: Cache Gradle build cache
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/caches/build-cache-*
@@ -130,7 +130,7 @@ jobs:
                       ${{ runner.os }}-gradle-build-
 
             - name: Cache detekt
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: ~/.gradle/caches/modules-2/files-*
                   key: ${{ runner.os }}-detekt-${{ hashFiles('**/detekt.yml') }}
@@ -145,7 +145,7 @@ jobs:
 
             - name: Upload detekt reports
               if: always()
-              uses: actions/upload-artifact@v7
+              uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               with:
                   name: detekt-reports
                   path: '**/build/reports/detekt/**'
@@ -156,19 +156,19 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
             - name: Setup JDK
-              uses: actions/setup-java@v5
+              uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
               with:
                   distribution: 'temurin'
                   java-version: ${{ inputs.java_version }}
 
             - name: Setup Gradle
-              uses: gradle/actions/setup-gradle@v5
+              uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
 
             - name: Cache Gradle wrappers
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/wrapper
@@ -178,7 +178,7 @@ jobs:
                       ${{ runner.os }}-gradle-wrapper-
 
             - name: Cache Gradle dependencies
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/caches
@@ -190,7 +190,7 @@ jobs:
                       ${{ runner.os }}-gradle-deps-
 
             - name: Cache Gradle build cache
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/caches/build-cache-*
@@ -200,7 +200,7 @@ jobs:
                       ${{ runner.os }}-gradle-build-
 
             - name: Cache build outputs
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       **/build/
@@ -218,7 +218,7 @@ jobs:
 
             - name: Upload build artifacts
               if: success()
-              uses: actions/upload-artifact@v7
+              uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               with:
                   name: apk-debug
                   path: '**/build/outputs/apk/debug/*.apk'
@@ -230,19 +230,19 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v6
+              uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
             - name: Setup JDK
-              uses: actions/setup-java@v5
+              uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
               with:
                   distribution: 'temurin'
                   java-version: ${{ inputs.java_version }}
 
             - name: Setup Gradle
-              uses: gradle/actions/setup-gradle@v6
+              uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
 
             - name: Cache Gradle wrappers
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/wrapper
@@ -252,7 +252,7 @@ jobs:
                       ${{ runner.os }}-gradle-wrapper-
 
             - name: Cache Gradle dependencies
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/caches
@@ -264,7 +264,7 @@ jobs:
                       ${{ runner.os }}-gradle-deps-
 
             - name: Cache Gradle build cache
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/caches/build-cache-*
@@ -274,7 +274,7 @@ jobs:
                       ${{ runner.os }}-gradle-build-
 
             - name: Restore build outputs
-              uses: actions/cache/restore@v5
+              uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       **/build/
@@ -292,14 +292,14 @@ jobs:
 
             - name: Upload test reports
               if: always()
-              uses: actions/upload-artifact@v7
+              uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               with:
                   name: test-reports
                   path: '**/build/reports/tests/**'
 
             - name: Publish test report
               if: always()
-              uses: mikepenz/action-junit-report@v6
+              uses: mikepenz/action-junit-report@3a81627bfac62268172037048872e8ebd4207e6d # v6.4.1
               with:
                   report_paths: '**/build/test-results/testDebugUnitTest/**/*.xml'
                   detailed_summary: true
@@ -307,7 +307,7 @@ jobs:
 
             - name: Upload test results
               if: always()
-              uses: EnricoMi/publish-unit-test-result-action@v2
+              uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
               with:
                   files: '**/build/test-results/testDebugUnitTest/**/*.xml'
                   check_name: Unit Test Results
@@ -318,19 +318,19 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v6
+              uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
             - name: Setup JDK
-              uses: actions/setup-java@v5
+              uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
               with:
                   distribution: 'temurin'
                   java-version: ${{ inputs.java_version }}
 
             - name: Setup Gradle
-              uses: gradle/actions/setup-gradle@v6
+              uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
 
             - name: Cache Gradle wrappers
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/wrapper
@@ -340,7 +340,7 @@ jobs:
                       ${{ runner.os }}-gradle-wrapper-
 
             - name: Cache Gradle dependencies
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/caches
@@ -352,7 +352,7 @@ jobs:
                       ${{ runner.os }}-gradle-deps-
 
             - name: Cache Gradle build cache
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: |
                       ~/.gradle/caches/build-cache-*
@@ -369,7 +369,7 @@ jobs:
 
             - name: Upload lint reports
               if: always()
-              uses: actions/upload-artifact@v7
+              uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               with:
                   name: lint-reports
                   path: '**/build/reports/lint-results-*.html'

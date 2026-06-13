@@ -284,7 +284,7 @@ jobs:
                     --health-interval 5s --health-timeout 5s --health-retries 5
         steps:
             - name: Checkout Repository
-              uses: actions/checkout@v6
+              uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
             - name: Set image reference
               id: image
@@ -324,7 +324,7 @@ jobs:
 
             - name: Set up Docker Buildx
               if: steps.image.outputs.mode == 'pull'
-              uses: docker/setup-buildx-action@v4
+              uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4.1.0
 
             - name: Build production image
               if: steps.image.outputs.mode == 'build'
@@ -372,23 +372,23 @@ jobs:
             packages: write
         steps:
             - name: Checkout Repository
-              uses: actions/checkout@v6
+              uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
             - name: Set up QEMU
-              uses: docker/setup-qemu-action@v4
+              uses: docker/setup-qemu-action@06116385d9baf250c9f4dcb4858b16962ea869c3 # v4.1.0
 
             - name: Set up Docker Buildx
-              uses: docker/setup-buildx-action@v3
+              uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4.1.0
 
             - name: Log in to GHCR
-              uses: docker/login-action@v3
+              uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
               with:
                   registry: ghcr.io
                   username: ${{ github.actor }}
                   password: ${{ secrets.ghcr_token || github.token }}
 
             - name: Build and push multi-arch image
-              uses: docker/build-push-action@v6
+              uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
               with:
                   context: ${{ inputs.docker_build_context }}
                   file: ${{ inputs.dockerfile_path }}
@@ -409,15 +409,15 @@ jobs:
             packages: read
         steps:
             - name: Checkout Repository
-              uses: actions/checkout@v6
+              uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
             - name: Setup Bun
-              uses: oven-sh/setup-bun@v1
+              uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
               with:
                   bun-version: ${{ inputs.bun_version }}
 
             - name: Setup Pulumi
-              uses: pulumi/setup-pulumi@v2
+              uses: pulumi/setup-pulumi@b374ceb6168550de27c6eba92e01c1a774040e11 # v2.0.0
 
             - name: Install Dependencies
               working-directory: ${{ inputs.deploy_working_directory }}

@@ -68,7 +68,7 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v6
+              uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
             - name: Setup Rust
               uses: dtolnay/rust-toolchain@master
@@ -77,19 +77,19 @@ jobs:
                   components: rustfmt, clippy
 
             - name: Cache cargo registry
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: ~/.cargo/registry
                   key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
 
             - name: Cache cargo index
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: ~/.cargo/git
                   key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
 
             - name: Cache target
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
                   path: target
                   key: ${{ runner.os }}-target-${{ hashFiles('**/Cargo.lock') }}
