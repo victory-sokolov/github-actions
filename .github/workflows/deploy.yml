@@ -388,7 +388,7 @@ jobs:
                   password: ${{ secrets.ghcr_token || github.token }}
 
             - name: Build and push multi-arch image
-              uses: docker/build-push-action@v6
+              uses: docker/build-push-action@v7
               with:
                   context: ${{ inputs.docker_build_context }}
                   file: ${{ inputs.dockerfile_path }}
