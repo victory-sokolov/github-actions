@@ -65,9 +65,9 @@ runs:
       shell: bash
       run: |
         if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
-          pnpm fallow
+          pnpm fallow --base main
         else
-          bun run fallow
+          bun run fallow --base main
         fi
 
     - name: 🔍 Check for duplicate code

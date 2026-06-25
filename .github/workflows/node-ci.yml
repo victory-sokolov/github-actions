@@ -183,14 +183,14 @@ jobs:
         run: |
           if [ "${{ steps.turbo_check.outputs.has_turbo }}" = "true" ]; then
             if [ "${{ inputs.package-manager }}" = "pnpm" ]; then
-              pnpm turbo run fallow --filter=""
+              pnpm turbo run fallow --filter="" -- --base main
             else
-              bunx turbo run fallow --filter=""
+              bunx turbo run fallow --filter="" -- --base main
             fi
           elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
-            pnpm fallow
+            pnpm fallow --base main
           else
-            bun run fallow
+            bun run fallow --base main
           fi
 
       - name: 🔍 Check for duplicate code
