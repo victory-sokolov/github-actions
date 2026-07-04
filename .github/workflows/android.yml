@@ -46,10 +46,21 @@ jobs:
         name: ktlint (style & format)
         runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
 
+<<<<<<< HEAD
         steps:
             - name: Checkout code
               uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+||||||| parent of 855f42d (update actions versions)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+=======
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache ktlint
               id: cache-ktlint
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -58,6 +69,25 @@ jobs:
                   key: ${{ runner.os }}-ktlint-${{ env.KTLINT_VERSION }}
                   restore-keys: |
                       ${{ runner.os }}-ktlint-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache ktlint
+        id: cache-ktlint
+        uses: actions/cache@v5
+        with:
+          path: ${{ env.KTLINT_CACHE_DIR }}
+          key: ${{ runner.os }}-ktlint-${{ env.KTLINT_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-ktlint-
+=======
+      - name: Cache ktlint
+        id: cache-ktlint
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ env.KTLINT_CACHE_DIR }}
+          key: ${{ runner.os }}-ktlint-${{ env.KTLINT_VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-ktlint-
+>>>>>>> 855f42d (update actions versions)
 
             - name: Download ktlint
               if: steps.cache-ktlint.outputs.cache-hit != 'true'
@@ -84,19 +114,52 @@ jobs:
         name: detekt (static analysis)
         runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
 
+<<<<<<< HEAD
         steps:
             - name: Checkout code
               uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+||||||| parent of 855f42d (update actions versions)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+=======
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Setup JDK
               uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
               with:
                   distribution: 'temurin'
                   java-version: ${{ inputs.java_version }}
+||||||| parent of 855f42d (update actions versions)
+      - name: Setup JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: ${{ inputs.java_version }}
+=======
+      - name: Setup JDK
+        uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
+        with:
+          distribution: 'temurin'
+          java-version: ${{ inputs.java_version }}
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Setup Gradle
               uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+||||||| parent of 855f42d (update actions versions)
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+=======
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle wrappers
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -106,7 +169,29 @@ jobs:
                   key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-wrapper-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle wrappers
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/wrapper
+            ~/.gradle/wrapper/dists
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
+=======
+      - name: Cache Gradle wrappers
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/wrapper
+            ~/.gradle/wrapper/dists
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle dependencies
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -118,7 +203,33 @@ jobs:
                   key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-deps-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/caches/modules-2
+            ~/.gradle/caches/modules-2/metadata-*
+            ~/.gradle/caches/modules-2/metadata-*/module-metadata.bin
+          key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-deps-
+=======
+      - name: Cache Gradle dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/caches/modules-2
+            ~/.gradle/caches/modules-2/metadata-*
+            ~/.gradle/caches/modules-2/metadata-*/module-metadata.bin
+          key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-deps-
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle build cache
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -128,7 +239,29 @@ jobs:
                   key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-build-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle build cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches/build-cache-*
+            .gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-
+=======
+      - name: Cache Gradle build cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/caches/build-cache-*
+            .gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache detekt
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -136,6 +269,23 @@ jobs:
                   key: ${{ runner.os }}-detekt-${{ hashFiles('**/detekt.yml') }}
                   restore-keys: |
                       ${{ runner.os }}-detekt-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache detekt
+        uses: actions/cache@v5
+        with:
+          path: ~/.gradle/caches/modules-2/files-*
+          key: ${{ runner.os }}-detekt-${{ hashFiles('**/detekt.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-detekt-
+=======
+      - name: Cache detekt
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.gradle/caches/modules-2/files-*
+          key: ${{ runner.os }}-detekt-${{ hashFiles('**/detekt.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-detekt-
+>>>>>>> 855f42d (update actions versions)
 
             - name: Grant execute permission for gradlew
               run: chmod +x gradlew
@@ -143,30 +293,79 @@ jobs:
             - name: Run detekt
               run: ./gradlew detekt --no-daemon --continue
 
+<<<<<<< HEAD
             - name: Upload detekt reports
               if: always()
               uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               with:
                   name: detekt-reports
                   path: '**/build/reports/detekt/**'
+||||||| parent of 855f42d (update actions versions)
+      - name: Upload detekt reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: detekt-reports
+          path: '**/build/reports/detekt/**'
+=======
+      - name: Upload detekt reports
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: detekt-reports
+          path: '**/build/reports/detekt/**'
+>>>>>>> 855f42d (update actions versions)
 
     build:
         name: Build
         runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
 
+<<<<<<< HEAD
         steps:
             - name: Checkout code
               uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+||||||| parent of 855f42d (update actions versions)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+=======
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Setup JDK
               uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
               with:
                   distribution: 'temurin'
                   java-version: ${{ inputs.java_version }}
+||||||| parent of 855f42d (update actions versions)
+      - name: Setup JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: ${{ inputs.java_version }}
+=======
+      - name: Setup JDK
+        uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
+        with:
+          distribution: 'temurin'
+          java-version: ${{ inputs.java_version }}
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Setup Gradle
               uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+||||||| parent of 855f42d (update actions versions)
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+=======
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle wrappers
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -176,7 +375,29 @@ jobs:
                   key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-wrapper-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle wrappers
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/wrapper
+            ~/.gradle/wrapper/dists
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
+=======
+      - name: Cache Gradle wrappers
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/wrapper
+            ~/.gradle/wrapper/dists
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle dependencies
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -188,7 +409,33 @@ jobs:
                   key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-deps-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/caches/modules-2
+            ~/.gradle/caches/modules-2/metadata-*
+            ~/.gradle/caches/modules-2/metadata-*/module-metadata.bin
+          key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-deps-
+=======
+      - name: Cache Gradle dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/caches/modules-2
+            ~/.gradle/caches/modules-2/metadata-*
+            ~/.gradle/caches/modules-2/metadata-*/module-metadata.bin
+          key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-deps-
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle build cache
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -198,7 +445,29 @@ jobs:
                   key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-build-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle build cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches/build-cache-*
+            .gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-
+=======
+      - name: Cache Gradle build cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/caches/build-cache-*
+            .gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache build outputs
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -209,6 +478,29 @@ jobs:
                   key: ${{ runner.os }}-build-${{ hashFiles('**/*.kt', '**/*.kts', '**/*.gradle*') }}
                   restore-keys: |
                       ${{ runner.os }}-build-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache build outputs
+        uses: actions/cache@v5
+        with:
+          path: |
+            **/build/
+            !**/build/reports/
+            !**/build/outputs/
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*.kt', '**/*.kts', '**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+=======
+      - name: Cache build outputs
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            **/build/
+            !**/build/reports/
+            !**/build/outputs/
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*.kt', '**/*.kts', '**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+>>>>>>> 855f42d (update actions versions)
 
             - name: Grant execute permission for gradlew
               run: chmod +x gradlew
@@ -216,31 +508,80 @@ jobs:
             - name: Build with Gradle
               run: ./gradlew assembleDebug --no-daemon --stacktrace --build-cache
 
+<<<<<<< HEAD
             - name: Upload build artifacts
               if: success()
               uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               with:
                   name: apk-debug
                   path: '**/build/outputs/apk/debug/*.apk'
+||||||| parent of 855f42d (update actions versions)
+      - name: Upload build artifacts
+        if: success()
+        uses: actions/upload-artifact@v7
+        with:
+          name: apk-debug
+          path: '**/build/outputs/apk/debug/*.apk'
+=======
+      - name: Upload build artifacts
+        if: success()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: apk-debug
+          path: '**/build/outputs/apk/debug/*.apk'
+>>>>>>> 855f42d (update actions versions)
 
     unit_tests:
         name: Unit Tests
         runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
         needs: build
 
+<<<<<<< HEAD
         steps:
             - name: Checkout code
               uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+||||||| parent of 855f42d (update actions versions)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+=======
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Setup JDK
               uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
               with:
                   distribution: 'temurin'
                   java-version: ${{ inputs.java_version }}
+||||||| parent of 855f42d (update actions versions)
+      - name: Setup JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: ${{ inputs.java_version }}
+=======
+      - name: Setup JDK
+        uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
+        with:
+          distribution: 'temurin'
+          java-version: ${{ inputs.java_version }}
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Setup Gradle
               uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+||||||| parent of 855f42d (update actions versions)
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+=======
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle wrappers
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -250,7 +591,29 @@ jobs:
                   key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-wrapper-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle wrappers
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/wrapper
+            ~/.gradle/wrapper/dists
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
+=======
+      - name: Cache Gradle wrappers
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/wrapper
+            ~/.gradle/wrapper/dists
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle dependencies
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -262,7 +625,33 @@ jobs:
                   key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-deps-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/caches/modules-2
+            ~/.gradle/caches/modules-2/metadata-*
+            ~/.gradle/caches/modules-2/metadata-*/module-metadata.bin
+          key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-deps-
+=======
+      - name: Cache Gradle dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/caches/modules-2
+            ~/.gradle/caches/modules-2/metadata-*
+            ~/.gradle/caches/modules-2/metadata-*/module-metadata.bin
+          key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-deps-
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle build cache
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -272,7 +661,29 @@ jobs:
                   key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-build-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle build cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches/build-cache-*
+            .gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-
+=======
+      - name: Cache Gradle build cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/caches/build-cache-*
+            .gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Restore build outputs
               uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -283,6 +694,29 @@ jobs:
                   key: ${{ runner.os }}-build-${{ hashFiles('**/*.kt', '**/*.kts', '**/*.gradle*') }}
                   restore-keys: |
                       ${{ runner.os }}-build-
+||||||| parent of 855f42d (update actions versions)
+      - name: Restore build outputs
+        uses: actions/cache/restore@v5
+        with:
+          path: |
+            **/build/
+            !**/build/reports/
+            !**/build/outputs/
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*.kt', '**/*.kts', '**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+=======
+      - name: Restore build outputs
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            **/build/
+            !**/build/reports/
+            !**/build/outputs/
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*.kt', '**/*.kts', '**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+>>>>>>> 855f42d (update actions versions)
 
             - name: Grant execute permission for gradlew
               run: chmod +x gradlew
@@ -290,13 +724,30 @@ jobs:
             - name: Run unit tests
               run: ./gradlew testDebugUnitTest --no-daemon --continue
 
+<<<<<<< HEAD
             - name: Upload test reports
               if: always()
               uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               with:
                   name: test-reports
                   path: '**/build/reports/tests/**'
+||||||| parent of 855f42d (update actions versions)
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-reports
+          path: '**/build/reports/tests/**'
+=======
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: test-reports
+          path: '**/build/reports/tests/**'
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Publish test report
               if: always()
               uses: mikepenz/action-junit-report@3a81627bfac62268172037048872e8ebd4207e6d # v6.4.1
@@ -304,31 +755,97 @@ jobs:
                   report_paths: '**/build/test-results/testDebugUnitTest/**/*.xml'
                   detailed_summary: true
                   include_passed: true
+||||||| parent of 855f42d (update actions versions)
+      - name: Publish test report
+        if: always()
+        uses: mikepenz/action-junit-report@v6
+        with:
+          report_paths: '**/build/test-results/testDebugUnitTest/**/*.xml'
+          detailed_summary: true
+          include_passed: true
+=======
+      - name: Publish test report
+        if: always()
+        uses: mikepenz/action-junit-report@d9f48fc87bc235f7e214acf696ca5abc0a986f16 # v6.4.2
+        with:
+          report_paths: '**/build/test-results/testDebugUnitTest/**/*.xml'
+          detailed_summary: true
+          include_passed: true
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Upload test results
               if: always()
               uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
               with:
                   files: '**/build/test-results/testDebugUnitTest/**/*.xml'
                   check_name: Unit Test Results
+||||||| parent of 855f42d (update actions versions)
+      - name: Upload test results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: '**/build/test-results/testDebugUnitTest/**/*.xml'
+          check_name: Unit Test Results
+=======
+      - name: Upload test results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
+        with:
+          files: '**/build/test-results/testDebugUnitTest/**/*.xml'
+          check_name: Unit Test Results
+>>>>>>> 855f42d (update actions versions)
 
     lint:
         name: Android Lint
         runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
 
+<<<<<<< HEAD
         steps:
             - name: Checkout code
               uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+||||||| parent of 855f42d (update actions versions)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+=======
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Setup JDK
               uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
               with:
                   distribution: 'temurin'
                   java-version: ${{ inputs.java_version }}
+||||||| parent of 855f42d (update actions versions)
+      - name: Setup JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: ${{ inputs.java_version }}
+=======
+      - name: Setup JDK
+        uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
+        with:
+          distribution: 'temurin'
+          java-version: ${{ inputs.java_version }}
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Setup Gradle
               uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+||||||| parent of 855f42d (update actions versions)
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+=======
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle wrappers
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -338,7 +855,29 @@ jobs:
                   key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-wrapper-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle wrappers
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/wrapper
+            ~/.gradle/wrapper/dists
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
+=======
+      - name: Cache Gradle wrappers
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/wrapper
+            ~/.gradle/wrapper/dists
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle dependencies
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -350,7 +889,33 @@ jobs:
                   key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-deps-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/caches/modules-2
+            ~/.gradle/caches/modules-2/metadata-*
+            ~/.gradle/caches/modules-2/metadata-*/module-metadata.bin
+          key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-deps-
+=======
+      - name: Cache Gradle dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/caches/modules-2
+            ~/.gradle/caches/modules-2/metadata-*
+            ~/.gradle/caches/modules-2/metadata-*/module-metadata.bin
+          key: ${{ runner.os }}-gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml', '**/gradle.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-deps-
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: Cache Gradle build cache
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -360,6 +925,27 @@ jobs:
                   key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
                   restore-keys: |
                       ${{ runner.os }}-gradle-build-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Gradle build cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches/build-cache-*
+            .gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-
+=======
+      - name: Cache Gradle build cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.gradle/caches/build-cache-*
+            .gradle/build-cache
+          key: ${{ runner.os }}-gradle-build-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-
+>>>>>>> 855f42d (update actions versions)
 
             - name: Grant execute permission for gradlew
               run: chmod +x gradlew
@@ -367,9 +953,25 @@ jobs:
             - name: Run Android Lint
               run: ./gradlew lintDebug --no-daemon --continue
 
+<<<<<<< HEAD
             - name: Upload lint reports
               if: always()
               uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               with:
                   name: lint-reports
                   path: '**/build/reports/lint-results-*.html'
+||||||| parent of 855f42d (update actions versions)
+      - name: Upload lint reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lint-reports
+          path: '**/build/reports/lint-results-*.html'
+=======
+      - name: Upload lint reports
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: lint-reports
+          path: '**/build/reports/lint-results-*.html'
+>>>>>>> 855f42d (update actions versions)

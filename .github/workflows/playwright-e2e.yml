@@ -36,6 +36,7 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
+<<<<<<< HEAD
     e2e:
         runs-on: ubuntu-latest
         defaults:
@@ -44,6 +45,25 @@ jobs:
         steps:
             - name: 📥 Checkout code
               uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+||||||| parent of 855f42d (update actions versions)
+  e2e:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v6
+=======
+  e2e:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+>>>>>>> 855f42d (update actions versions)
 
             - name: 📦 Setup dependencies with cache
               uses: victory-sokolov/github-actions/.github/actions/node-deps-cache@main
@@ -52,6 +72,7 @@ jobs:
                   node-version: ${{ inputs.node-version }}
                   working-directory: ${{ inputs.working-directory }}
 
+<<<<<<< HEAD
             - name: Cache Playwright browsers
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
               with:
@@ -59,6 +80,23 @@ jobs:
                   key: ${{ runner.os }}-playwright-${{ inputs.playwright-version }}
                   restore-keys: |
                       ${{ runner.os }}-playwright-
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ inputs.playwright-version }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+=======
+      - name: Cache Playwright browsers
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ inputs.playwright-version }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+>>>>>>> 855f42d (update actions versions)
 
             - name: 🎭 Install Playwright browsers
               run: npx playwright@${{ inputs.playwright-version }} install --with-deps
@@ -66,6 +104,7 @@ jobs:
             - name: 🧪 Run Playwright tests
               run: ${{ inputs.test-command }}
 
+<<<<<<< HEAD
             - name: 📊 Upload test results
               uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
               if: always()
@@ -74,3 +113,22 @@ jobs:
                   path: ${{ inputs.working-directory }}/playwright-report/
                   retention-days: 7
                   compression-level: 6
+||||||| parent of 855f42d (update actions versions)
+      - name: 📊 Upload test results
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: playwright-report
+          path: ${{ inputs.working-directory }}/playwright-report/
+          retention-days: 7
+          compression-level: 6
+=======
+      - name: 📊 Upload test results
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: playwright-report
+          path: ${{ inputs.working-directory }}/playwright-report/
+          retention-days: 7
+          compression-level: 6
+>>>>>>> 855f42d (update actions versions)

@@ -4,6 +4,7 @@ Git hooks collection
 ## Available Git Hooks
 
 This repository contains various Git hooks that can be used to enforce development practices and automate tasks.
+Update interactively Git actions: `npx actions-up`
 
 ### Client-Side Hooks
 

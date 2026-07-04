@@ -48,7 +48,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout commit
+<<<<<<< HEAD
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+||||||| parent of 855f42d (update actions versions)
+        uses: actions/checkout@v6
+=======
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+>>>>>>> 855f42d (update actions versions)
         with:
           fetch-depth: 0
 
@@ -163,6 +169,18 @@ jobs:
             bun run build
           fi
 
+<<<<<<< HEAD
+||||||| parent of 855f42d (update actions versions)
+      - uses: reviewdog/action-setup@d8edfce3dd5e1ec6978745e801f9c50b5ef80252 # v1.4.0
+        with:
+          reviewdog_version: latest
+
+=======
+      - uses: reviewdog/action-setup@d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f # v1.5.0
+        with:
+          reviewdog_version: latest
+
+>>>>>>> 855f42d (update actions versions)
       - name: 🧪 Run tests
         if: inputs.run-tests && steps.scripts.outputs.test == 'true'
         run: |
@@ -178,6 +196,7 @@ jobs:
             bun run test:coverage
           fi
 
+<<<<<<< HEAD
       - name: 🌿 Run Fallow checks
         if: inputs.run-fallow
         run: |
@@ -192,6 +211,31 @@ jobs:
           else
             bun run fallow --base main
           fi
+||||||| parent of 855f42d (update actions versions)
+      - name: 📊 Upload coverage reports
+        if: inputs.upload-coverage && (success() || failure())
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report-${{ inputs.package-manager }}
+          path: |
+            coverage/
+            *.coverage
+            .coverage
+          retention-days: 7
+          compression-level: 6
+=======
+      - name: 📊 Upload coverage reports
+        if: inputs.upload-coverage && (success() || failure())
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: coverage-report-${{ inputs.package-manager }}
+          path: |
+            coverage/
+            *.coverage
+            .coverage
+          retention-days: 7
+          compression-level: 6
+>>>>>>> 855f42d (update actions versions)
 
       - name: 🔍 Check for duplicate code
         if: inputs.run-jscpd && steps.scripts.outputs.jscpd == 'true'

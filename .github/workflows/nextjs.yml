@@ -24,6 +24,7 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
+<<<<<<< HEAD
     build-and-export:
         runs-on: ubuntu-latest
         defaults:
@@ -40,13 +41,40 @@ jobs:
                   else
                     echo "NODE_VERSION=${{ inputs.node-version }}" >> "$GITHUB_OUTPUT"
                   fi
+||||||| parent of 855f42d (update actions versions)
+  build-and-export:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+=======
+  build-and-export:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+>>>>>>> 855f42d (update actions versions)
 
+<<<<<<< HEAD
             - name: 📦 Setup dependencies with cache
               uses: victory-sokolov/github-actions/.github/actions/node-deps-cache@main
               with:
                   package-manager: '${{ inputs.package-manager }}'
                   node-version: '${{ steps.nvm.outputs.NODE_VERSION }}'
                   working-directory: '${{ inputs.working-directory }}'
+||||||| parent of 855f42d (update actions versions)
+      - name: 🔤 Spell Check with Typos
+        uses: crate-ci/typos@v1.44.0
+=======
+      - name: 🔤 Spell Check with Typos
+        uses: crate-ci/typos@bee27e3a4fd1ea2111cf90ab89cd076c870fce14 # v1.48.0
+>>>>>>> 855f42d (update actions versions)
 
             - name: Cache Next.js build outputs
               uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
@@ -68,6 +96,7 @@ jobs:
                     npm run build
                   fi
 
+<<<<<<< HEAD
             - name: 🧪 Run tests
               run: |
                   if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
@@ -78,6 +107,23 @@ jobs:
                     npm test
                   fi
               continue-on-error: true
+||||||| parent of 855f42d (update actions versions)
+      - name: Cache Next.js build outputs
+        uses: actions/cache@v5
+        with:
+          path: ${{ inputs.working-directory }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles(format('{0}/package-lock.json', inputs.working-directory), format('{0}/pnpm-lock.yaml', inputs.working-directory), format('{0}/bun.lockb', inputs.working-directory)) }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-
+=======
+      - name: Cache Next.js build outputs
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ inputs.working-directory }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles(format('{0}/package-lock.json', inputs.working-directory), format('{0}/pnpm-lock.yaml', inputs.working-directory), format('{0}/bun.lockb', inputs.working-directory)) }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-
+>>>>>>> 855f42d (update actions versions)
 
             - name: 🩺 React Doctor
               run: |
@@ -100,6 +146,7 @@ jobs:
                     npm run test:a11y
                   fi
 
+<<<<<<< HEAD
             - name: 📤 Upload build artifacts
               if: success() || failure()
               uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -112,3 +159,50 @@ jobs:
                       out/
                   retention-days: 7
                   compression-level: 6
+||||||| parent of 855f42d (update actions versions)
+      - name: Export Next.js app
+        run: |
+          if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+            pnpm run export
+          elif [ "${{ inputs.package-manager }}" == "bun" ]; then
+            bun run export
+          else
+            npm run export
+          fi
+
+      - name: 📤 Upload build artifacts
+        if: success() || failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: build-artifacts-${{ inputs.package-manager }}
+          path: |
+            dist/
+            build/
+            .next/
+            out/
+          retention-days: 7
+          compression-level: 6
+=======
+      - name: Export Next.js app
+        run: |
+          if [ "${{ inputs.package-manager }}" == "pnpm" ]; then
+            pnpm run export
+          elif [ "${{ inputs.package-manager }}" == "bun" ]; then
+            bun run export
+          else
+            npm run export
+          fi
+
+      - name: 📤 Upload build artifacts
+        if: success() || failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: build-artifacts-${{ inputs.package-manager }}
+          path: |
+            dist/
+            build/
+            .next/
+            out/
+          retention-days: 7
+          compression-level: 6
+>>>>>>> 855f42d (update actions versions)

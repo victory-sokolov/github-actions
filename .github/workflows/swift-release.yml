@@ -21,7 +21,13 @@ jobs:
 
     steps:
       - name: Checkout Repository
+<<<<<<< HEAD
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+||||||| parent of 855f42d (update actions versions)
+        uses: actions/checkout@v6
+=======
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+>>>>>>> 855f42d (update actions versions)
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -87,10 +93,22 @@ jobs:
 
     steps:
       - name: Checkout Repository
+<<<<<<< HEAD
         uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+||||||| parent of 855f42d (update actions versions)
+        uses: actions/checkout@v6
+=======
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+>>>>>>> 855f42d (update actions versions)
 
       - name: Cache Xcode Build
+<<<<<<< HEAD
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+||||||| parent of 855f42d (update actions versions)
+        uses: actions/cache@v5
+=======
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+>>>>>>> 855f42d (update actions versions)
         with:
           path: |
             ~/Library/Developer/Xcode/DerivedData
@@ -152,7 +170,13 @@ jobs:
         run: ls -R
 
       - name: Create GitHub Release
+<<<<<<< HEAD
         uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+||||||| parent of 855f42d (update actions versions)
+        uses: softprops/action-gh-release@v2
+=======
+        uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v3.0.1
+>>>>>>> 855f42d (update actions versions)
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: v${{ needs.bump-version.outputs.version }}
