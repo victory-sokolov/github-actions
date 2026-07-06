@@ -23,7 +23,7 @@ on:
             tags:
                 required: false
                 type: string
-                default: ""
+                default: ''
             platforms:
                 required: false
                 type: string
@@ -36,7 +36,7 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        timeout-minutes: 15
+        timeout-minutes: 20
         permissions:
             contents: read
             packages: write
