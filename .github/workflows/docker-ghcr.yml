@@ -104,5 +104,9 @@ jobs:
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
                   build-args: ${{ inputs.build_args }}
-                  cache-from: type=gha,scope=${{ inputs.image_name }}-${{ inputs.target || 'default' }}
-                  cache-to: type=gha,mode=max,scope=${{ inputs.image_name }}-${{ inputs.target || 'default' }}
+                  cache-from: |
+                      type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ inputs.image_name }}:buildcache-${{ inputs.target || 'default' }}
+                      type=gha,scope=${{ inputs.image_name }}-${{ inputs.target || 'default' }}
+                  cache-to: |
+                      type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ inputs.image_name }}:buildcache-${{ inputs.target || 'default' }},mode=max
+                      type=gha,mode=max,scope=${{ inputs.image_name }}-${{ inputs.target || 'default' }}
