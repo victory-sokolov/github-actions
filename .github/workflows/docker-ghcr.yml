@@ -34,9 +34,29 @@ on:
                 required: false
 
 jobs:
-    build:
+    select-runner:
         runs-on: ubuntu-latest
-        timeout-minutes: 20
+        outputs:
+            runner: ${{ steps.pick.outputs.runner }}
+            needs_qemu: ${{ steps.pick.outputs.needs_qemu }}
+        steps:
+            - id: pick
+              run: |
+                  if [[ "${{ inputs.platforms }}" == *","* ]]; then
+                      echo "runner=ubuntu-latest" >> "$GITHUB_OUTPUT"
+                      echo "needs_qemu=true" >> "$GITHUB_OUTPUT"
+                  elif [[ "${{ inputs.platforms }}" == "linux/arm64" ]]; then
+                      echo "runner=ubuntu-24.04-arm" >> "$GITHUB_OUTPUT"
+                      echo "needs_qemu=false" >> "$GITHUB_OUTPUT"
+                  else
+                      echo "runner=ubuntu-latest" >> "$GITHUB_OUTPUT"
+                      echo "needs_qemu=false" >> "$GITHUB_OUTPUT"
+                  fi
+
+    build:
+        needs: select-runner
+        runs-on: ${{ needs.select-runner.outputs.runner }}
+        timeout-minutes: 25
         permissions:
             contents: read
             packages: write
@@ -45,21 +65,12 @@ jobs:
               uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
             - name: Set up QEMU
+              if: needs.select-runner.outputs.needs_qemu == 'true'
               uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4.2.0
 
             - name: Set up Docker Buildx
               id: setup-buildx
               uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
-
-            - name: Restore Docker cache mounts
-              id: cache-mounts
-              uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-              with:
-                  path: ${{ runner.temp }}/docker-cache-mounts
-                  key: ${{ runner.os }}-docker-cache-mounts-${{ github.repository }}-${{ inputs.image_name }}-${{ inputs.target || 'default' }}-${{ inputs.platforms }}-${{ hashFiles(inputs.dockerfile_path, '**/package.json', '**/bun.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-docker-cache-mounts-${{ github.repository }}-${{ inputs.image_name }}-${{ inputs.target || 'default' }}-${{ inputs.platforms }}-
-                      ${{ runner.os }}-docker-cache-mounts-${{ github.repository }}-${{ inputs.image_name }}-
 
             - name: Log in to GHCR
               uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # v4.4.0
@@ -119,5 +130,4 @@ jobs:
                       type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ inputs.image_name }}:buildcache-${{ inputs.target || 'default' }}
                       type=gha,scope=${{ inputs.image_name }}-${{ inputs.target || 'default' }}
                   cache-to: |
-                      type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ inputs.image_name }}:buildcache-${{ inputs.target || 'default' }},mode=max
                       type=gha,mode=max,scope=${{ inputs.image_name }}-${{ inputs.target || 'default' }}
