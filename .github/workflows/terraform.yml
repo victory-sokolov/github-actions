@@ -42,7 +42,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
@@ -56,7 +56,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-terraform-
       - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@6e1e0642c0289bd619021bf6b34e3c08ed1e005a # v6.3.0
+        uses: terraform-linters/setup-tflint@6ffdbaa3be476b3431f7275c26966ef32ff60337 # v6.3.2
       - name: tflint --init
         run: tflint --init
         working-directory: ${{ inputs.working_directory }}
@@ -66,15 +66,15 @@ jobs:
         run: tflint --recursive
         working-directory: ${{ inputs.working_directory }}
       - name: terraform fmt
-        uses: dflook/terraform-fmt-check@59168426e242f665bf7b70644d706224e665056a # v2.2.3
+        uses: dflook/terraform-fmt-check@e3f43c85d3e0a6bb3adb7be8c423c22c42d572bd # v3.1.0
         with:
           path: ${{ inputs.working_directory }}
       - name: terraform validate
-        uses: dflook/terraform-validate@4cef5d8a4b92bcd88486e41e22a42942a382c9d6 # v2.2.3
+        uses: dflook/terraform-validate@29a791ea3e8c3a7c0157bb21aba5a6ca59a69d6d # v3.1.0
         with:
           path: ${{ inputs.working_directory }}
       - name: terraform plan
-        uses: dflook/terraform-plan@7878bff63e2099cdc9be9a6f33cbbbf687f8f0fe # v2.2.3
+        uses: dflook/terraform-plan@48e90468aecdd1d8ea21617d4cecf0cd7746ff1d # v3.1.0
         with:
           path: ${{ inputs.working_directory }}
 
