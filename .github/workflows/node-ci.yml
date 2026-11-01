@@ -181,16 +181,17 @@ jobs:
       - name: 🌿 Run Fallow checks
         if: inputs.run-fallow
         run: |
+          BASE="origin/${{ github.base_ref || 'main' }}"
           if [ "${{ steps.turbo_check.outputs.has_turbo }}" = "true" ]; then
             if [ "${{ inputs.package-manager }}" = "pnpm" ]; then
-              pnpm turbo run fallow --filter="" -- --base main
+              pnpm turbo run fallow --filter="" -- --base "$BASE"
             else
-              bunx turbo run fallow --filter="" -- --base main
+              bunx turbo run fallow --filter="" -- --base "$BASE"
             fi
           elif [ "${{ inputs.package-manager }}" = "pnpm" ]; then
-            pnpm fallow --base main
+            pnpm fallow --base "$BASE"
           else
-            bun run fallow --base main
+            bun run fallow --base "$BASE"
           fi
 
       - name: 🔍 Check for duplicate code
