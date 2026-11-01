@@ -8,6 +8,19 @@
 pre-commit:
   parallel: true
   commands:
+    merge-conflict-markers:
+      run: |
+        git diff --cached --name-only --diff-filter=ACMR -z |
+          xargs -0 -n 1 sh -c '
+            if [ "$#" -eq 0 ]; then
+              exit 0
+            fi
+            file=$1
+            if git show ":$file" | grep -nE "^(<<<<<<<|\\|\\|\\|\\|\\|\\|\\|)"; then
+              echo "Unresolved merge conflict markers in $file" >&2
+              exit 1
+            fi
+          ' sh
     format:
       run: bun run format
       stage_fixed: true

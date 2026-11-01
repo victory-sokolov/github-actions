@@ -24,9 +24,12 @@ This configuration runs the following checks in parallel before each commit:
 
 | Command | Description | Required Script |
 |---------|-------------|-----------------|
-| `format-check` | Checks code formatting | `bun run format:check` |
+| `merge-conflict-markers` | Blocks commits when staged files contain unresolved merge conflict markers | — |
+| `format` | Formats code and stages fixes | `bun run format` |
 | `lint` | Runs the linter | `bun run lint` |
 | `typecheck` | Runs TypeScript type checking | `bun run typecheck` |
+| `duplicate-code` | Checks for duplicate code | `bun run jscpd` |
+| `deps-sync` | Updates the lockfile when `package.json` is staged | `sfw bun install --frozen-lockfile --ignore-scripts` |
 
 ## Prerequisites
 
